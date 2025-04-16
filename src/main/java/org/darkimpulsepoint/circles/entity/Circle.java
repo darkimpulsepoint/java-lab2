@@ -49,9 +49,9 @@ public class Circle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Circle circle = (Circle) o;
-        return Double.compare(circle.x, x) == 0 &&
+        return (Double.compare(circle.x, x) == 0 &&
                Double.compare(circle.y, y) == 0 &&
-               Double.compare(circle.radius, radius) == 0;
+               Double.compare(circle.radius, radius) == 0);
     }
 
     @Override

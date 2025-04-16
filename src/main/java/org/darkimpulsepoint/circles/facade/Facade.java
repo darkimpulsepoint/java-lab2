@@ -36,7 +36,7 @@ public class Facade {
     }
 
     public void execute() throws FileException {
-        String file = "/home/alexus/IdeaProjects/laba2/src/main/resources/circles.txt";
+        String file = "/home/alexus/IdeaProjects/laba2/data/circles/circles.txt";
         List<String> circleStrings = circleFileReader.readFile(file);
 
         ArrayList<Circle> circles = new ArrayList<>();
