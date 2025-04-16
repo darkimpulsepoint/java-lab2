@@ -1,14 +1,13 @@
 package org.darkimpulsepoint.circles.facade;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.darkimpulsepoint.circles.entity.Circle;
-import org.darkimpulsepoint.circles.exception.FileException;
+import org.darkimpulsepoint.circles.exception.CircleFileException;
 import org.darkimpulsepoint.circles.factory.CircleFactory;
 import org.darkimpulsepoint.circles.factory.impl.CircleFactoryImpl;
-import org.darkimpulsepoint.circles.parser.CircleParser;
-import org.darkimpulsepoint.circles.reader.CircleFileReader;
+import org.darkimpulsepoint.circles.parser.impl.CircleParserImpl;
+import org.darkimpulsepoint.circles.reader.impl.CircleFileReaderImpl;
 import org.darkimpulsepoint.circles.service.CircleService;
 import org.darkimpulsepoint.circles.service.impl.CircleServiceImpl;
 import org.darkimpulsepoint.circles.validator.CircleValidator;
@@ -21,29 +20,31 @@ import java.util.Optional;
 public class Facade {
     private final CircleValidator validator;
     private final CircleFactory factory;
-    private final CircleParser circleParser;
-    private final CircleFileReader circleFileReader;
+    private final CircleParserImpl circleParser;
+    private final CircleFileReaderImpl circleFileReader;
     private final CircleService circleService;
-    private final Logger logger;
+    private final Logger logger = LogManager.getLogger(Facade.class);;
 
     public Facade() {
         this.validator = new CircleValidatorImpl();
         this.factory = new CircleFactoryImpl(validator);
-        this.circleParser = new CircleParser(factory);
-        this.circleFileReader = new CircleFileReader();
-        this.logger = LogManager.getLogger(Facade.class);
+        this.circleParser = new CircleParserImpl();
+        this.circleFileReader = new CircleFileReaderImpl();
         this.circleService = new CircleServiceImpl();
     }
 
-    public void execute() throws FileException {
-        String file = "/home/alexus/IdeaProjects/laba2/data/circles/circles.txt";
-        List<String> circleStrings = circleFileReader.readFile(file);
+    public void execute(String filePath) throws CircleFileException {
+        List<String> circleStrings = circleFileReader.readFile(filePath);
 
         ArrayList<Circle> circles = new ArrayList<>();
 
         circleStrings.forEach(circleString -> {
-            Optional<Circle> circle = circleParser.parse(circleString);
-            circle.ifPresent(circles::add);
+            Optional<double[]> circleParameters = circleParser.parse(circleString);
+            if (circleParameters.isPresent()){
+                double[] parameters = circleParameters.get();
+                Optional<Circle> circle = factory.create(parameters[0], parameters[1], parameters[2]);
+                circle.ifPresent(circles::add);
+            }
         });
 
         circles.forEach(logger::info);
