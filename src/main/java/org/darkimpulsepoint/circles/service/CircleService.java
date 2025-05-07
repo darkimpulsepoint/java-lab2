@@ -17,4 +17,15 @@ public interface CircleService {
     Optional<Circle> findCircleWithMinPerimeter(List<Circle> circles);
 
     ArrayList<ArrayList<Circle>> findCirclesOnSameLine(List<Circle> circles);
+
+    double findCircleArea(Circle circle);
+
+    double findCirclePerimeter(Circle circle);
+
+    boolean isUnitCircle(Circle circle);
+
+    boolean isLargeCircle(Circle circle);
+
+
+
 }

@@ -12,6 +12,8 @@ import org.darkimpulsepoint.circles.service.CircleService;
 import org.darkimpulsepoint.circles.service.impl.CircleServiceImpl;
 import org.darkimpulsepoint.circles.validator.CircleValidator;
 import org.darkimpulsepoint.circles.validator.impl.CircleValidatorImpl;
+import org.darkimpulsepoint.circles.repository.CircleRepository;
+import org.darkimpulsepoint.circles.repository.impl.CircleRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,8 @@ public class Facade {
     private final CircleParserImpl circleParser;
     private final CircleFileReaderImpl circleFileReader;
     private final CircleService circleService;
-    private final Logger logger = LogManager.getLogger(Facade.class);;
+    private final CircleRepository circleRepository;
+    private final Logger logger = LogManager.getLogger(Facade.class);
 
     public Facade() {
         this.validator = new CircleValidatorImpl();
@@ -31,6 +34,7 @@ public class Facade {
         this.circleParser = new CircleParserImpl();
         this.circleFileReader = new CircleFileReaderImpl();
         this.circleService = new CircleServiceImpl();
+        this.circleRepository = new CircleRepositoryImpl();
     }
 
     public void execute(String filePath) throws CircleFileException {
@@ -43,17 +47,20 @@ public class Facade {
             if (circleParameters.isPresent()){
                 double[] parameters = circleParameters.get();
                 Optional<Circle> circle = factory.create(parameters[0], parameters[1], parameters[2]);
-                circle.ifPresent(circles::add);
+                circle.ifPresent(c -> {
+                    circles.add(c);
+                    circleRepository.add(c);
+                });
             }
         });
 
         circles.forEach(logger::info);
 
-        ArrayList<ArrayList<Circle>> lines =  circleService.findCirclesOnSameLine(circles);
+        ArrayList<ArrayList<Circle>> lines = circleService.findCirclesOnSameLine(circles);
 
-        lines.forEach(line->logger.info("Group of circles on line:\n {}", line));
+        lines.forEach(line -> logger.info("Group of circles on line:\n {}", line));
 
-
+        ArrayList<ArrayList<Circle>> groups = circleService.findCirclesOnSameLine(circles);
+        groups.forEach(group -> logger.info("Group of circles with similar property:\n {}", group));
     }
-
 }

@@ -1,9 +1,15 @@
 package org.darkimpulsepoint.circles.entity;
 
-public class Circle {
+import org.darkimpulsepoint.circles.observer.Observable;
+import org.darkimpulsepoint.circles.observer.Observer;
+
+import java.util.List;
+
+public class Circle implements Observable {
     private double x;
     private double y;
     private double radius;
+    private List<Observer> observers;
 
 
     public Circle(double x, double y, double radius) {
@@ -18,6 +24,7 @@ public class Circle {
 
     public void setX(double x) {
         this.x = x;
+        notifyObservers();
     }
 
     public double getY() {
@@ -26,6 +33,8 @@ public class Circle {
 
     public void setY(double y) {
         this.y = y;
+        notifyObservers();
+
     }
 
     public double getRadius() {
@@ -34,14 +43,7 @@ public class Circle {
 
     public void setRadius(double radius) {
         this.radius = radius;
-    }
-
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-
-    public double perimeter() {
-        return 2 * Math.PI * radius;
+        notifyObservers();
     }
 
     @Override
@@ -78,5 +80,20 @@ public class Circle {
         sb.append("}");
 
         return sb.toString();
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
     }
 }
