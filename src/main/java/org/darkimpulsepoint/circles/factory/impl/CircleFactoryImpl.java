@@ -10,11 +10,10 @@ import java.util.Optional;
 
 public class CircleFactoryImpl implements CircleFactory {
     private final CircleValidator validator;
-    private final Logger logger;
+    private static final Logger logger = LogManager.getLogger(CircleFactoryImpl.class);;
 
     public CircleFactoryImpl(CircleValidator validator) {
         this.validator = validator;
-        this.logger = LogManager.getLogger(CircleFactoryImpl.class);
     }
 
     @Override

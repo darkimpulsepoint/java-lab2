@@ -27,7 +27,7 @@ public class Facade {
     private final CircleFileReaderImpl circleFileReader;
     private final CircleService circleService;
     private final CircleRepository circleRepository;
-    private final Logger logger = LogManager.getLogger(Facade.class);
+    private static final Logger logger = LogManager.getLogger(Facade.class);
 
     public Facade() {
         this.validator = new CircleValidatorImpl();
