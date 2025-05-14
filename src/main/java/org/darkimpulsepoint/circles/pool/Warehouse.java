@@ -18,7 +18,7 @@ public class Warehouse {
         return instance;
     }
 
-    public void update(Circle circle, CircleParameters circleParameters) {
+    public void put(Circle circle, CircleParameters circleParameters) {
         parametersMap.put(circle, circleParameters);
     }
 

@@ -12,7 +12,7 @@ public class LargeCircleSpecification implements Specification<Circle> {
     }
 
     @Override
-    public boolean satisfies(Circle circle){
+    public boolean isSatisfiedBy(Circle circle){
         return circleService.isLargeCircle(circle);
     }
 }

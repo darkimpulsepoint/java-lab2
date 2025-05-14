@@ -1,7 +1,7 @@
 package org.darkimpulsepoint.circles.observer;
 
 public interface Observable {
-    void addObserver(Observer observer);
-    void removeObserver(Observer observer);
+    void addObserver(CircleObserver observer);
+    void removeObserver(CircleObserver observer);
     void notifyObservers();
 }

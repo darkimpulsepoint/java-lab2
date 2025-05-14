@@ -1,12 +1,12 @@
 package org.darkimpulsepoint.circles.observer.impl;
 
 import org.darkimpulsepoint.circles.entity.Circle;
-import org.darkimpulsepoint.circles.observer.Observer;
+import org.darkimpulsepoint.circles.observer.CircleObserver;
 import org.darkimpulsepoint.circles.pool.CircleParameters;
 import org.darkimpulsepoint.circles.pool.Warehouse;
 import org.darkimpulsepoint.circles.service.CircleService;
 
-public class CircleObserverImpl implements Observer<Circle> {
+public class CircleObserverImpl implements CircleObserver<Circle> {
     private Warehouse warehouse;
     private CircleService circleService;
 
@@ -17,6 +17,6 @@ public class CircleObserverImpl implements Observer<Circle> {
 
     @Override
     public void update(Circle item) {
-        warehouse.update(item, new CircleParameters(circleService.findCirclePerimeter(item), circleService.findCircleArea(item)));
+        warehouse.put(item, new CircleParameters(circleService.findCirclePerimeter(item), circleService.findCircleArea(item)));
     }
 }

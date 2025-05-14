@@ -1,7 +1,7 @@
 package org.darkimpulsepoint.circles.entity;
 
 import org.darkimpulsepoint.circles.observer.Observable;
-import org.darkimpulsepoint.circles.observer.Observer;
+import org.darkimpulsepoint.circles.observer.CircleObserver;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class Circle implements Observable {
     private double x;
     private double y;
     private double radius;
-    private List<Observer> observers;
+    private List<CircleObserver> observers;
 
 
     public Circle(double x, double y, double radius) {
@@ -83,12 +83,12 @@ public class Circle implements Observable {
     }
 
     @Override
-    public void addObserver(Observer observer) {
+    public void addObserver(CircleObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public void removeObserver(CircleObserver observer) {
         observers.remove(observer);
     }
 

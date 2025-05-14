@@ -10,6 +10,7 @@ import org.darkimpulsepoint.circles.parser.impl.CircleParserImpl;
 import org.darkimpulsepoint.circles.reader.impl.CircleFileReaderImpl;
 import org.darkimpulsepoint.circles.service.CircleService;
 import org.darkimpulsepoint.circles.service.impl.CircleServiceImpl;
+import org.darkimpulsepoint.circles.specification.impl.AreaRangeCircleSpecification;
 import org.darkimpulsepoint.circles.validator.CircleValidator;
 import org.darkimpulsepoint.circles.validator.impl.CircleValidatorImpl;
 import org.darkimpulsepoint.circles.repository.CircleRepository;
@@ -55,6 +56,9 @@ public class Facade {
         });
 
         circles.forEach(logger::info);
+
+
+        circleRepository.query(new AreaRangeCircleSpecification(0, 150));
 
         ArrayList<ArrayList<Circle>> lines = circleService.findCirclesOnSameLine(circles);
 

@@ -1,5 +1,5 @@
 package org.darkimpulsepoint.circles.observer;
 
-public interface Observer<T> {
+public interface CircleObserver<T> {
     void update(T item);
 }
